@@ -37,35 +37,40 @@ def evaluate_random_function(f, x, y):
     pass
 
 
-def remap_interval(val,
-                   input_interval_start,
-                   input_interval_end,
-                   output_interval_start,
-                   output_interval_end):
-    """ Given an input value in the interval [input_interval_start,
-        input_interval_end], return an output value scaled to fall within
-        the output interval [output_interval_start, output_interval_end].
+def remapInterval(val,
+                   inputIntervalStart,
+                   inputIntervalEnd,
+                   outputIntervalStart,
+                   outputIntervalEnd):
+    """ Given an input value in the interval [inputIntervalStart,
+        inputIntervalEnd], return an output value scaled to fall within
+        the output interval [outputIntervalStart, outputIntervalEnd].
 
         val: the value to remap
-        input_interval_start: the start of the interval that contains all
+        inputIntervalStart: the start of the interval that contains all
                               possible values for val
-        input_interval_end: the end of the interval that contains all possible
+        inputIntervalEnd: the end of the interval that contains all possible
                             values for val
-        output_interval_start: the start of the interval that contains all
+        outputIntervalStart: the start of the interval that contains all
                                possible output values
-        output_inteval_end: the end of the interval that contains all possible
+        outputIntervalEnd: the end of the interval that contains all possible
                             output values
         returns: the value remapped from the input to the output interval
 
-        >>> remap_interval(0.5, 0, 1, 0, 10)
+        >>> remapInterval(0.5, 0, 1, 0, 10)
         5.0
-        >>> remap_interval(5, 4, 6, 0, 2)
+        >>> remapInterval(5, 4, 6, 0, 2)
         1.0
-        >>> remap_interval(5, 4, 6, 1, 2)
+        >>> remapInterval(5, 4, 6, 1, 2)
         1.5
     """
-    # TODO: implement this
-    pass
+    
+    inputDelta = inputIntervalEnd - inputIntervalStart
+    inputPosition = float(val - inputIntervalStart) / inputDelta
+    outputDelta = outputIntervalEnd - outputIntervalStart
+    outputPosition = outputIntervalStart + inputPosition * outputDelta
+    return outputPosition
+
 
 
 def color_map(val):
@@ -84,8 +89,8 @@ def color_map(val):
         >>> color_map(0.5)
         191
     """
-    # NOTE: This relies on remap_interval, which you must provide
-    color_code = remap_interval(val, -1, 1, 0, 255)
+    # NOTE: This relies on remapInterval, which you must provide
+    color_code = remapInterval(val, -1, 1, 0, 255)
     return int(color_code)
 
 
@@ -100,8 +105,8 @@ def test_image(filename, x_size=350, y_size=350):
     pixels = im.load()
     for i in range(x_size):
         for j in range(y_size):
-            x = remap_interval(i, 0, x_size, -1, 1)
-            y = remap_interval(j, 0, y_size, -1, 1)
+            x = remapInterval(i, 0, x_size, -1, 1)
+            y = remapInterval(j, 0, y_size, -1, 1)
             pixels[i, j] = (random.randint(0, 255),  # Red channel
                             random.randint(0, 255),  # Green channel
                             random.randint(0, 255))  # Blue channel
@@ -125,8 +130,8 @@ def generate_art(filename, x_size=350, y_size=350):
     pixels = im.load()
     for i in range(x_size):
         for j in range(y_size):
-            x = remap_interval(i, 0, x_size, -1, 1)
-            y = remap_interval(j, 0, y_size, -1, 1)
+            x = remapInterval(i, 0, x_size, -1, 1)
+            y = remapInterval(j, 0, y_size, -1, 1)
             pixels[i, j] = (
                     color_map(evaluate_random_function(red_function, x, y)),
                     color_map(evaluate_random_function(green_function, x, y)),
@@ -138,13 +143,13 @@ def generate_art(filename, x_size=350, y_size=350):
 
 if __name__ == '__main__':
     import doctest
-    doctest.testmod()
-
+    # doctest.testmod()
+    doctest.run_docstring_examples(remapInterval, globals())
     # Create some computational art!
     # TODO: Un-comment the generate_art function call after you
-    #       implement remap_interval and evaluate_random_function
+    #       implement remapInterval and evaluate_random_function
     # generate_art("myart.png")
 
     # Test that PIL is installed correctly
     # TODO: Comment or remove this function call after testing PIL install
-    test_image("noise.png")
+    # test_image("noise.png")
