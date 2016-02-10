@@ -19,7 +19,7 @@ def build_random_function(min_depth, max_depth):
     pass
 
 
-def evaluate_random_function(f, x, y):
+def evaluateRandomFunction(f, x, y):
     """ Evaluate the random function f with inputs x,y
         Representation of the function f is defined in the assignment writeup
 
@@ -28,13 +28,20 @@ def evaluate_random_function(f, x, y):
         y: the value of y to be used to evaluate the function
         returns: the function value
 
-        >>> evaluate_random_function(["x"],-0.5, 0.75)
+        >>> evaluateRandomFunction(["x"],-0.5, 0.75)
         -0.5
-        >>> evaluate_random_function(["y"],0.1,0.02)
+        >>> evaluateRandomFunction(["y"],0.1,0.02)
         0.02
+        >>> evaluateRandomFunction("x",-1,1)
+        <type 'exceptions.ValueError'>
     """
-    # TODO: implement this
-    pass
+
+    if f == ["x"]:
+        return x
+    elif f == ["y"]:
+        return y
+    else:
+        return ValueError
 
 
 def remapInterval(val,
@@ -133,9 +140,9 @@ def generate_art(filename, x_size=350, y_size=350):
             x = remapInterval(i, 0, x_size, -1, 1)
             y = remapInterval(j, 0, y_size, -1, 1)
             pixels[i, j] = (
-                    color_map(evaluate_random_function(red_function, x, y)),
-                    color_map(evaluate_random_function(green_function, x, y)),
-                    color_map(evaluate_random_function(blue_function, x, y))
+                    color_map(evaluateRandomFunction(red_function, x, y)),
+                    color_map(evaluateRandomFunction(green_function, x, y)),
+                    color_map(evaluateRandomFunction(blue_function, x, y))
                     )
 
     im.save(filename)
@@ -144,10 +151,10 @@ def generate_art(filename, x_size=350, y_size=350):
 if __name__ == '__main__':
     import doctest
     # doctest.testmod()
-    doctest.run_docstring_examples(remapInterval, globals())
+    doctest.run_docstring_examples(evaluateRandomFunction, globals())
     # Create some computational art!
     # TODO: Un-comment the generate_art function call after you
-    #       implement remapInterval and evaluate_random_function
+    #       implement remapInterval and evaluateRandomFunction
     # generate_art("myart.png")
 
     # Test that PIL is installed correctly
