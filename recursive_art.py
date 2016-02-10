@@ -4,13 +4,13 @@ import random
 from PIL import Image
 
 
-def buildRandomFunction(min_depth, max_depth):
-    """ Builds a random function of depth at least min_depth and depth
-        at most max_depth (see assignment writeup for definition of depth
+def buildRandomFunction(minDepth, maxDepth):
+    """ Builds a random function of depth at least minDepth and depth
+        at most maxDepth (see assignment writeup for definition of depth
         in this context)
 
-        min_depth: the minimum depth of the random function
-        max_depth: the maximum depth of the random function
+        minDepth: the minimum depth of the random function
+        maxDepth: the maximum depth of the random function
         returns: the randomly generated function represented as a nested list
                  (see assignment writeup for details on the representation of
                  these functions)
@@ -96,7 +96,6 @@ def colorMap(val):
         >>> colorMap(0.5)
         191
     """
-    # NOTE: This relies on remapInterval, which you must provide
     colorCode = remapInterval(val, -1, 1, 0, 255)
     return int(colorCode)
 
@@ -128,9 +127,9 @@ def generate_art(filename, x_size=350, y_size=350):
         x_size, y_size: optional args to set image dimensions (default: 350)
     """
     # Functions for red, green, and blue channels - where the magic happens!
-    red_function = ["x"]
-    green_function = ["y"]
-    blue_function = ["x"]
+    red_function = buildRandomFunction(7, 9)
+    green_function = buildRandomFunction(7, 9)
+    blue_function = buildRandomFunction(7, 9)
 
     # Create image and loop over all pixels
     im = Image.new("RGB", (x_size, y_size))
