@@ -4,7 +4,7 @@ import random
 from PIL import Image
 
 
-def build_random_function(min_depth, max_depth):
+def buildRandomFunction(min_depth, max_depth):
     """ Builds a random function of depth at least min_depth and depth
         at most max_depth (see assignment writeup for definition of depth
         in this context)
@@ -80,25 +80,25 @@ def remapInterval(val,
 
 
 
-def color_map(val):
+def colorMap(val):
     """ Maps input value between -1 and 1 to an integer 0-255, suitable for
         use as an RGB color code.
 
         val: value to remap, must be a float in the interval [-1, 1]
         returns: integer in the interval [0,255]
 
-        >>> color_map(-1.0)
+        >>> colorMap(-1.0)
         0
-        >>> color_map(1.0)
+        >>> colorMap(1.0)
         255
-        >>> color_map(0.0)
+        >>> colorMap(0.0)
         127
-        >>> color_map(0.5)
+        >>> colorMap(0.5)
         191
     """
     # NOTE: This relies on remapInterval, which you must provide
-    color_code = remapInterval(val, -1, 1, 0, 255)
-    return int(color_code)
+    colorCode = remapInterval(val, -1, 1, 0, 255)
+    return int(colorCode)
 
 
 def test_image(filename, x_size=350, y_size=350):
@@ -140,9 +140,9 @@ def generate_art(filename, x_size=350, y_size=350):
             x = remapInterval(i, 0, x_size, -1, 1)
             y = remapInterval(j, 0, y_size, -1, 1)
             pixels[i, j] = (
-                    color_map(evaluateRandomFunction(red_function, x, y)),
-                    color_map(evaluateRandomFunction(green_function, x, y)),
-                    color_map(evaluateRandomFunction(blue_function, x, y))
+                    colorMap(evaluateRandomFunction(red_function, x, y)),
+                    colorMap(evaluateRandomFunction(green_function, x, y)),
+                    colorMap(evaluateRandomFunction(blue_function, x, y))
                     )
 
     im.save(filename)
@@ -150,12 +150,12 @@ def generate_art(filename, x_size=350, y_size=350):
 
 if __name__ == '__main__':
     import doctest
-    # doctest.testmod()
-    doctest.run_docstring_examples(evaluateRandomFunction, globals())
+    doctest.testmod()
+    # doctest.run_docstring_examples(evaluateRandomFunction, globals())
     # Create some computational art!
     # TODO: Un-comment the generate_art function call after you
     #       implement remapInterval and evaluateRandomFunction
-    # generate_art("myart.png")
+    generate_art("myart.png")
 
     # Test that PIL is installed correctly
     # TODO: Comment or remove this function call after testing PIL install
