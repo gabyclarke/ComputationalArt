@@ -1,7 +1,9 @@
-""" TODO: Put your header comment here """
+""" recursive_art.py: randomly generates art """
+__author__ = "Gaby Clarke"
 
 import random
 from PIL import Image
+import math
 
 
 def buildRandomFunction(minDepth, maxDepth):
@@ -16,7 +18,32 @@ def buildRandomFunction(minDepth, maxDepth):
                  these functions)
     """
     # TODO: implement this
-    pass
+    # ["elementary function name here", argument 1 (optional), argument 2 (optional)]
+    
+    functions = ['x', 'y', 'prod', 'avg', 'cosPi', 'sinPi', 'square', 'cube']
+    function = random.choice(functions)
+
+    depth = random.randint(minDepth, maxDepth)
+
+    # if depth <= 1:
+    # 	return [random.choice(['x', 'y'])]
+    if function == 'x':
+    	return ['x']
+    elif function == 'y':
+    	return ['y']
+    elif function == 'prod':
+    	return ['prod', buildRandomFunction(minDepth-1, maxDepth-1), buildRandomFunction(minDepth-1, maxDepth-1)]
+    elif function == 'avg':
+    	return ['avg', buildRandomFunction(minDepth-1, maxDepth-1), buildRandomFunction(minDepth-1, maxDepth-1)]
+    elif function == 'cosPi':
+    	return ['cosPi', buildRandomFunction(minDepth-1, maxDepth-1)]
+    elif function == 'sinPi':
+    	return ['sinPi', buildRandomFunction(minDepth-1, maxDepth-1)]
+    elif function == 'square':
+    	return ['square', buildRandomFunction(minDepth-1, maxDepth-1)]
+    elif function == 'cube':
+    	return ['cube', buildRandomFunction(minDepth-1, maxDepth-1)]
+
 
 
 def evaluateRandomFunction(f, x, y):
@@ -28,20 +55,34 @@ def evaluateRandomFunction(f, x, y):
         y: the value of y to be used to evaluate the function
         returns: the function value
 
-        >>> evaluateRandomFunction(["x"],-0.5, 0.75)
+        >>> evaluateRandomFunction(['x'],-0.5, 0.75)
         -0.5
-        >>> evaluateRandomFunction(["y"],0.1,0.02)
+        >>> evaluateRandomFunction(['y'],0.1,0.02)
         0.02
-        >>> evaluateRandomFunction("x",-1,1)
+        >>> evaluateRandomFunction('x',-1,1)
         <type 'exceptions.ValueError'>
     """
 
-    if f == ["x"]:
+    # eval_func(f[1],x,y,t)*eval_func(f[2],x,y,t)
+
+    if f[0] == ['x']:
         return x
-    elif f == ["y"]:
+    elif f[0] == ['y']:
         return y
-    else:
-        return ValueError
+    elif f[0] == ['prod']:
+    	return evaluateRandomFunction(f[1], x, y) * evaluateRandomFunction(f[2], x, y)
+    elif f[0] == ['avg']:
+    	return 0.5 * (evaluateRandomFunction(f[1], x, y) + evaluateRandomFunction(f[2], x, y))
+    elif f[0] == ['cosPi']:
+    	return math.cos(math.pi * evaluateRandomFunction(f[1], x, y))
+    elif f[0] == ['sinPi']:
+    	return math.sin(math.pi * evaluateRandomFunction(f[1], x, y))
+    elif f[0] == ['square']:
+    	return evaluateRandomFunction(f[1], x, y)**2
+    elif f[0] == ['cube']:
+    	return evaluateRandomFunction(f[1], x, y)**3
+    # else:
+    #     return ValueError
 
 
 def remapInterval(val,
@@ -71,12 +112,13 @@ def remapInterval(val,
         >>> remapInterval(5, 4, 6, 1, 2)
         1.5
     """
-    
+
     inputDelta = inputIntervalEnd - inputIntervalStart
     inputPosition = float(val - inputIntervalStart) / inputDelta
     outputDelta = outputIntervalEnd - outputIntervalStart
-    outputPosition = outputIntervalStart + inputPosition * outputDelta
+    outputPosition = outputIntervalStart + (inputPosition * outputDelta)
     return outputPosition
+    print val
 
 
 
@@ -150,7 +192,7 @@ def generate_art(filename, x_size=350, y_size=350):
 if __name__ == '__main__':
     import doctest
     doctest.testmod()
-    # doctest.run_docstring_examples(evaluateRandomFunction, globals())
+    # doctest.run_docstring_examples(remapInterval, globals())
     # Create some computational art!
     # TODO: Un-comment the generate_art function call after you
     #       implement remapInterval and evaluateRandomFunction
