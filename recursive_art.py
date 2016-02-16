@@ -17,13 +17,11 @@ def buildRandomFunction(minDepth, maxDepth):
                  (see assignment writeup for details on the representation of
                  these functions)
     """
-    # TODO: implement this
-    # ["elementary function name here", argument 1 (optional), argument 2 (optional)]
     
     functions = ['x', 'y', 'prod', 'avg', 'cosPi', 'sinPi', 'square', 'cube']
     function = random.choice(functions)
 
-    depth = random.randint(minDepth, maxDepth)
+    # depth = random.randint(minDepth, maxDepth)
 
     # if depth <= 1:
     # 	return [random.choice(['x', 'y'])]
@@ -62,28 +60,41 @@ def evaluateRandomFunction(f, x, y):
         >>> evaluateRandomFunction('x',-1,1)
         <type 'exceptions.ValueError'>
     """
-
-    # eval_func(f[1],x,y,t)*eval_func(f[2],x,y,t)
-
-    if f[0] == ['x']:
+    if f[0] == 'x':
         return x
-    elif f[0] == ['y']:
+    elif f[0] == 'y':
         return y
-    elif f[0] == ['prod']:
+    elif f[0] == 'prod':
     	return evaluateRandomFunction(f[1], x, y) * evaluateRandomFunction(f[2], x, y)
-    elif f[0] == ['avg']:
-    	return 0.5 * (evaluateRandomFunction(f[1], x, y) + evaluateRandomFunction(f[2], x, y))
-    elif f[0] == ['cosPi']:
+    elif f[0] == 'avg':
+        	return 0.5 * (evaluateRandomFunction(f[1], x, y) + evaluateRandomFunction(f[2], x, y))
+    elif f[0] == 'cosPi':
     	return math.cos(math.pi * evaluateRandomFunction(f[1], x, y))
-    elif f[0] == ['sinPi']:
-    	return math.sin(math.pi * evaluateRandomFunction(f[1], x, y))
-    elif f[0] == ['square']:
+    elif f[0] == 'sinPi':
+      	return math.sin(math.pi * evaluateRandomFunction(f[1], x, y))
+    elif f[0] == 'square':
     	return evaluateRandomFunction(f[1], x, y)**2
-    elif f[0] == ['cube']:
+    elif f[0] == 'cube':
     	return evaluateRandomFunction(f[1], x, y)**3
     # else:
     #     return ValueError
 
+    # if f[0] == ['x']:
+    #     return x
+    # elif f[0] == ['y']:
+    #     return y
+    # elif f[0] == ['prod']:
+    # 	return f[1] * f[2]
+    # elif f[0] == ['avg']:
+    # 	return 0.5 * f[1] + f[2]
+    # elif f[0] == ['cosPi']:
+    # 	return math.cos(math.pi * f[1])
+    # elif f[0] == ['sinPi']:
+    # 	return math.sin(math.pi * f[1])
+    # elif f[0] == ['square']:
+    # 	return f[1]**2
+    # elif f[0] == ['cube']:
+    # 	return f[1]**3
 
 def remapInterval(val,
                    inputIntervalStart,
@@ -112,14 +123,11 @@ def remapInterval(val,
         >>> remapInterval(5, 4, 6, 1, 2)
         1.5
     """
-
     inputDelta = inputIntervalEnd - inputIntervalStart
     inputPosition = float(val - inputIntervalStart) / inputDelta
     outputDelta = outputIntervalEnd - outputIntervalStart
     outputPosition = outputIntervalStart + (inputPosition * outputDelta)
     return outputPosition
-    print val
-
 
 
 def colorMap(val):
@@ -142,7 +150,7 @@ def colorMap(val):
     return int(colorCode)
 
 
-def test_image(filename, x_size=350, y_size=350):
+def testImage(filename, x_size=350, y_size=350):
     """ Generate test image with random pixels and save as an image file.
 
         filename: string filename for image (should be .png)
@@ -162,7 +170,7 @@ def test_image(filename, x_size=350, y_size=350):
     im.save(filename)
 
 
-def generate_art(filename, x_size=350, y_size=350):
+def generateArt(filename, x_size=700, y_size=700):
     """ Generate computational art and save as an image file.
 
         filename: string filename for image (should be .png)
@@ -188,16 +196,14 @@ def generate_art(filename, x_size=350, y_size=350):
 
     im.save(filename)
 
+def pngNamer():
+	for i in range(10,20):
+		name = str(i) + ".png"
+		generateArt(name)
 
 if __name__ == '__main__':
     import doctest
-    doctest.testmod()
+    # doctest.testmod()
     # doctest.run_docstring_examples(remapInterval, globals())
-    # Create some computational art!
-    # TODO: Un-comment the generate_art function call after you
-    #       implement remapInterval and evaluateRandomFunction
-    generate_art("myart.png")
 
-    # Test that PIL is installed correctly
-    # TODO: Comment or remove this function call after testing PIL install
-    # test_image("noise.png")
+    pngNamer()
