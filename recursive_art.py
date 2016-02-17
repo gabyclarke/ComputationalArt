@@ -18,7 +18,7 @@ def buildRandomFunction(minDepth, maxDepth):
                  these functions)
     """
     
-    functions = ['x', 'y', 't', 'prod', 'avg', 'cosPi', 'sinPi', 'square', 'cube']
+    functions = ['x', 'y', 't', 'prod', 'avg', 'cosPi', 'sinPi']#, 'square', 'cube']
     function = random.choice(functions)
 
     # depth = random.randint(minDepth, maxDepth)
@@ -216,4 +216,4 @@ if __name__ == '__main__':
     # doctest.testmod()
     # doctest.run_docstring_examples(remapInterval, globals())
 
-    generateArt('frame12',25)
+    generateArt('frame16',20)
