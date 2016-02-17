@@ -1,4 +1,4 @@
-""" recursive_art.py: randomly generates art """
+""" recursive_art.py: randomly generates "art" """
 __author__ = "Gaby Clarke"
 
 import random
@@ -18,14 +18,9 @@ def buildRandomFunction(minDepth, maxDepth):
                  these functions)
     """
     
-    functions = ['x', 'y', 't', 'prod', 'avg', 'cosPi', 'sinPi']#, 'square', 'cube']
+    functions = ['x', 'y', 't', 'prod', 'avg', 'cosPi', 'sinPi', 'square', 'cube']
     function = random.choice(functions)
 
-    # depth = random.randint(minDepth, maxDepth)
-    # # print depth
-
-    # if depth <= 1:
-    # 	return [random.choice(['x', 'y', 't'])]
     if function == 'x':
     	return ['x']
     elif function == 'y':
@@ -81,25 +76,7 @@ def evaluateRandomFunction(f, x, y, t):
     	return evaluateRandomFunction(f[1], x, y, t)**2
     elif f[0] == 'cube':
     	return evaluateRandomFunction(f[1], x, y, t)**3
-    # else:
-    #     return ValueError
 
-    # if f[0] == ['x']:
-    #     return x
-    # elif f[0] == ['y']:
-    #     return y
-    # elif f[0] == ['prod']:
-    # 	return f[1] * f[2]
-    # elif f[0] == ['avg']:
-    # 	return 0.5 * f[1] + f[2]
-    # elif f[0] == ['cosPi']:
-    # 	return math.cos(math.pi * f[1])
-    # elif f[0] == ['sinPi']:
-    # 	return math.sin(math.pi * f[1])
-    # elif f[0] == ['square']:
-    # 	return f[1]**2
-    # elif f[0] == ['cube']:
-    # 	return f[1]**3
 
 def remapInterval(val,
                    inputIntervalStart,
@@ -151,7 +128,6 @@ def colorMap(val):
         >>> colorMap(0.5)
         191
     """
-    # colorCode = remapInterval(val, -1, 1, 0, 255)
     colorCode = remapInterval(val, -1, 1, 0, 255)
     return int(colorCode)
 
@@ -177,7 +153,9 @@ def testImage(filename, x_size=350, y_size=350):
 
 
 def generateArt(filePrefix, frames, x_size=640, y_size=360):
-    """ Generate computational art and save as an image file.
+    """ Generate computational art and save as an image file for compilation as a video.
+    	This function generates two versions of the same image with different file names,
+    	such that you can generate a looping video.
 
         filename: string filename for image (should be .png)
         x_size, y_size: optional args to set image dimensions (default: 350)
@@ -205,15 +183,10 @@ def generateArt(filePrefix, frames, x_size=640, y_size=360):
 	                    colorMap(evaluateRandomFunction(blue_function, x, y, t))
 	                    )
 
-		# im2 = im
 		im.save(filePrefix + str(f).zfill(3) + '.png')
 		if f != framesOG:
 			opposite = range(framesOG)[-f]
 			im.save(filePrefix + str(opposite+framesOG).zfill(3) + '.png')
 
 if __name__ == '__main__':
-    import doctest
-    # doctest.testmod()
-    # doctest.run_docstring_examples(remapInterval, globals())
-
     generateArt('frame16',20)
