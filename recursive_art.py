@@ -18,28 +18,17 @@ def buildRandomFunction(minDepth, maxDepth):
                  these functions)
     """
     
-    functions = ['x', 'y', 't', 'prod', 'avg', 'cosPi', 'sinPi', 'square', 'cube']
+    functions = ['prod', 'avg', 'cosPi', 'sinPi', 'square', 'cube']
     function = random.choice(functions)
 
-    if function == 'x':
-    	return ['x']
-    elif function == 'y':
-    	return ['y']
-    elif function == 't':
-    	return ['t']
-    elif function == 'prod':
-    	return ['prod', buildRandomFunction(minDepth-1, maxDepth-1), buildRandomFunction(minDepth-1, maxDepth-1)]
-    elif function == 'avg':
-    	return ['avg', buildRandomFunction(minDepth-1, maxDepth-1), buildRandomFunction(minDepth-1, maxDepth-1)]
-    elif function == 'cosPi':
-    	return ['cosPi', buildRandomFunction(minDepth-1, maxDepth-1)]
-    elif function == 'sinPi':
-    	return ['sinPi', buildRandomFunction(minDepth-1, maxDepth-1)]
-    elif function == 'square':
-    	return ['square', buildRandomFunction(minDepth-1, maxDepth-1)]
-    elif function == 'cube':
-    	return ['cube', buildRandomFunction(minDepth-1, maxDepth-1)]
+    depth = random.randint(minDepth, maxDepth)
 
+    if depth <= 1:
+        return random.choice(['x', 'y', 't'])
+    elif function in ['prod', 'avg']:
+        return [function, buildRandomFunction(minDepth-1, maxDepth-1), buildRandomFunction(minDepth-1, maxDepth-1)]
+    else:
+        return [function, buildRandomFunction(minDepth-1, maxDepth-1)]
 
 
 def evaluateRandomFunction(f, x, y, t):
@@ -160,13 +149,13 @@ def generateArt(filePrefix, frames, x_size=640, y_size=360):
         filename: string filename for image (should be .png)
         x_size, y_size: optional args to set image dimensions (default: 350)
     """
-    framesOG = frames
+    framesCopy = frames
     frames += 1
 
     # Functions for red, green, and blue channels - where the magic happens!
-    red_function = buildRandomFunction(6, 8)
-    green_function = buildRandomFunction(6, 8)
-    blue_function = buildRandomFunction(6, 8)
+    red_function = buildRandomFunction(3, 5)
+    green_function = buildRandomFunction(3, 5)
+    blue_function = buildRandomFunction(3, 5)
 
     # Create image and loop over all pixels
     for f in range(1,frames):
@@ -184,9 +173,9 @@ def generateArt(filePrefix, frames, x_size=640, y_size=360):
 	                    )
 
 		im.save(filePrefix + str(f).zfill(3) + '.png')
-		if f != framesOG:
-			opposite = range(framesOG)[-f]
-			im.save(filePrefix + str(opposite+framesOG).zfill(3) + '.png')
+		if f != framesCopy:
+			opposite = range(framesCopy)[-f]
+			im.save(filePrefix + str(opposite+framesCopy).zfill(3) + '.png')
 
 if __name__ == '__main__':
-    generateArt('frame16',20)
+    generateArt('remake2',2)
