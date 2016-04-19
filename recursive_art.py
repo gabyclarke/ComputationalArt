@@ -17,7 +17,6 @@ def buildRandomFunction(minDepth, maxDepth,):
                  (see assignment writeup for details on the representation of
                  these functions)
     """
-
     x = lambda x, y, t: x
     y = lambda x, y, t: y
     time = lambda x, y, t: t
@@ -129,4 +128,4 @@ def generateArt(filename, frames, xSize=350, ySize=350):
         im.save(filename + str(frame) + '.png')
 
 if __name__ == '__main__':
-    generateArt('tests',1)
+    generateArt('test',1)
